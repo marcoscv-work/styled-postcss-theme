@@ -21,25 +21,13 @@ gulp.task('build:autoprefixer', function () {
         .pipe(gulp.dest('./build/css'));
 });
 
-gulp.task('build', function(cb) {
-	runSequence(
-		'build:clean',
-		'build:base',
-		'build:src',
-		'build:web-inf',
-		'build:liferay-look-and-feel',
-		'build:hook',
-		'build:themelets',
-		'build:rename-css-dir',
-		'build:prep-css',
-		'build:compile-css',
-		'build:fix-url-functions',
-		'build:move-compiled-css',
-		'build:remove-old-css-dir',
-		'build:autoprefixer',
-		'build:fix-at-directives',
-		'build:r2',
-		'build:war',
-		cb
-	);
+liferayThemeTasks.registerTasks({
+	gulp: gulp,
+	hookFn: function(gulp) {
+		gulp.hook('after:build:remove-old-css-dir', function(done) {
+			runSequence(
+				'build:autoprefixer'
+			)
+		});
+	}
 });
