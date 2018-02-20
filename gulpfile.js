@@ -26,7 +26,8 @@ liferayThemeTasks.registerTasks({
 	hookFn: function(gulp) {
 		gulp.hook('after:build:remove-old-css-dir', function(done) {
 			runSequence(
-				'build:autoprefixer'
+				'build:autoprefixer',
+				done
 			)
 		});
 	}
